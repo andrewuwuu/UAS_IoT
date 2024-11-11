@@ -27,11 +27,13 @@ class MqttHandler:
 
     def on_message(self, client, userdata, msg):
         try:
-            if msg.topic == MQTT_TOPIC_TEMPERATURE:
+            # Handle DHT messages only if stop_dht is False
+            if msg.topic == MQTT_TOPIC_TEMPERATURE and not self.sensor_data.stop_dht:
                 self.sensor_data.update_temperature(msg.payload.decode())
-            elif msg.topic == MQTT_TOPIC_HUMIDITY:
+            elif msg.topic == MQTT_TOPIC_HUMIDITY and not self.sensor_data.stop_dht:
                 self.sensor_data.update_humidity(msg.payload.decode())
             elif msg.topic == MQTT_TOPIC_ULTRASONIC:
+                # Update ultrasonic data and set flag to stop DHT data processing
                 self.sensor_data.update_ultrasonic_distance(msg.payload.decode())
 
             if self.sensor_data.is_ready():
@@ -42,7 +44,7 @@ class MqttHandler:
                 )
                 if prediction:
                     self.publish_response(prediction)
-                self.sensor_data.reset()
+                self.sensor_data.reset()  # Reset to start listening to DHT data again
 
         except Exception as e:
             print(f"Error processing message: {e}")
