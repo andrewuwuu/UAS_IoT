@@ -26,6 +26,8 @@ class GroqClient:
                     f"Bagaimana kita dapat memperkirakan kondisi lingkungan dari hasil pembacaan "
                     f"beberapa sensor berikut {{DHT22:kelembapan={humidity}, suhu={temperature}, "
                     f"HC-SR04:jarak={distance} cm}}. "
+                    f"Jika jarak pembacaan HC-SR04 < 50 cm, maka berarti terdapat genangan dan anda "
+                    f"bisa mengabaikan input dari DHT, sehingga anda dapat fokus menganalisis genangan yang terjadi. "
                     f"Jawab dengan respon dalam 1 atau 2 kalimat. Jawab hanya dengan prediksi saja."
                 ),
             },
