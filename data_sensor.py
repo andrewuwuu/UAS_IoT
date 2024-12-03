@@ -5,7 +5,7 @@ class SensorData:
     def __init__(self):
         self.temperature = None
         self.humidity = None
-        self.ultrasonic_distance = None  # Attribute for ultrasonic sensor data
+        self.ultrasonic_distance = None
 
     def update_temperature(self, temp):
         self.temperature = float(temp)
@@ -20,7 +20,6 @@ class SensorData:
         print(f"Updated distance: {self.ultrasonic_distance} cm")
 
     def is_ready(self):
-        # Ready only when all required data (temperature, humidity, and distance) is available
         return (self.temperature is not None and 
                 self.humidity is not None and 
                 self.ultrasonic_distance is not None)
