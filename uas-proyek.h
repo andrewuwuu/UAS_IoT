@@ -7,6 +7,7 @@ const char* ssid = "wifiName";             // Ganti dengan SSID WiFi Anda
 const char* password = "wifiPass";        // Ganti dengan password WiFi Anda
 const char* mqtt_server = "mqttServerIP"; // Ganti dengan alamat IP broker MQTT Anda
 const int mqtt_port = 1883;
+
 // Topik MQTT
 const char* topic_suhu = "dht/suhu";
 const char* topic_kelembapan = "dht/kelembapan";
