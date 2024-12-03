@@ -3,9 +3,9 @@
 #include <DHT.h>
 
 // WiFi dan konfigurasi MQTT
-const char* ssid = "POCO X6 5G";             // Ganti dengan SSID WiFi Anda
-const char* password = "bjir1234";        // Ganti dengan password WiFi Anda
-const char* mqtt_server = "64.23.181.7"; // Ganti dengan alamat IP broker MQTT Anda
+const char* ssid = "wifiName";             // Ganti dengan SSID WiFi Anda
+const char* password = "wifiPass";        // Ganti dengan password WiFi Anda
+const char* mqtt_server = "mqttServerIP"; // Ganti dengan alamat IP broker MQTT Anda
 const int mqtt_port = 1883;
 // Topik MQTT
 const char* topic_suhu = "dht/suhu";
