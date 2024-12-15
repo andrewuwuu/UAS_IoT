@@ -12,6 +12,7 @@ const int mqtt_port = 1883;
 const char* topic_suhu = "dht/suhu";
 const char* topic_kelembapan = "dht/kelembapan";
 const char* topic_jarak = "hc_sro4/jarak";
+const char* topic_air = "waterdrop/value"; // Mengirimkan nilai Waterdrop Sensor
 
 // Konfigurasi Sensor DHT
 #define DHTPIN D4            // Pin tempat sensor DHT22 terhubung
@@ -21,6 +22,9 @@ DHT dht(DHTPIN, DHTTYPE);
 // Konfigurasi Sensor Ultrasonik HC-SR04
 #define TRIG_PIN D5          // Pin Trigger untuk sensor ultrasonik
 #define ECHO_PIN D6          // Pin Echo untuk sensor ultrasonik
+
+// Konfigurasi Sensor Waterdrop
+#define WATERDROP_PIN A0     // Pin analog untuk sensor Waterdrop
 
 long duration;
 int distance;
@@ -73,7 +77,7 @@ long getDistance() {
   digitalWrite(TRIG_PIN, LOW);
   
   duration = pulseIn(ECHO_PIN, HIGH);  // Mengukur durasi pulsa pada pin Echo
-  distance = duration * 0.0344 / 2;   // Menghitung jarak dalam cm (kecepatan suara 0.0344 cm/μs)
+  distance = duration * 0.0344 / 2;   // Menghitung jarak dalam cm (kecepatan suara 0.0344 cm/�s)
 
   return distance;
 }
@@ -87,6 +91,8 @@ void setup() {
   // Inisialisasi pin sensor ultrasonik
   pinMode(TRIG_PIN, OUTPUT);
   pinMode(ECHO_PIN, INPUT);
+
+  // Inisialisasi sensor Waterdrop (tidak memerlukan konfigurasi tambahan)
 }
 
 void loop() {
@@ -133,6 +139,17 @@ void loop() {
   Serial.print("Distance: ");
   Serial.print(distance);
   Serial.println(" cm");
+
+  // Membaca data dari sensor Waterdrop
+  int waterValue = analogRead(WATERDROP_PIN);  // Membaca nilai analog dari sensor
+
+  // Mengirimkan nilai sensor Waterdrop ke MQTT broker
+  char waterValueStr[8];
+  itoa(waterValue, waterValueStr, 10);  // Mengubah nilai analog menjadi string
+  client.publish(topic_air, waterValueStr);
+
+  Serial.print("Waterdrop Value: ");
+  Serial.println(waterValue);
 
   // Tunggu 30 detik sebelum pengambilan data berikutnya
   delay(30000);
